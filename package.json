@@ -1,5 +1,5 @@
 {
-  "name": "ndc-xml2json",
+  "name": "@peterandreasmoelgaard/ndc-xml2json",
   "version": "0.0.0",
   "description": "This library converts NDC XML messages into JSON equivalents.",
   "main": "xml2json.js",

@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-var main = module.exports = function(inputFilePath, outputFilePath) {
+var main = module.exports = function(inputXml, cb) {
 	
 	var fs = require('fs');
 	var DOMParser = require('xmldom').DOMParser;
@@ -10,7 +10,7 @@ var main = module.exports = function(inputFilePath, outputFilePath) {
 	var singletons = [];
 
 	// read singletons file
-	fs.readFile('./singletons/singletons-172.json', 'utf8', function(err, data) {
+	fs.readFile('node_modules/@peterandreasmoelgaard/ndc-xml2json/singletons/singletons-172.json', 'utf8', function(err, data) {
 		if (err) {
 			console.error('Error reading singletons.json\n' + err);
 			return -1;
@@ -22,37 +22,27 @@ var main = module.exports = function(inputFilePath, outputFilePath) {
 
 
 	function xml2json() {
-		// read input (XML file)
-		fs.readFile(inputFilePath, 'utf8', function(err, data) {
-			if (err) {
-				console.error('Invalid input file\n' + err);
-				return -1;
-			}
-			try {
-				var parser = new DOMParser();
-				xml = parser.parseFromString(data, 'text/xml');
-			} catch (err) {
-				console.error('Invalid XML input\n' + err);
-				return -1;
-			}
-			var root = getFirstElementNode(xml.childNodes);
-			if (root == null) {
-				console.error('No element node at root level of XML file');
-				return -1;
-			}
-			json = '{"' + root.nodeName + '":';
-			parse(root, root.nodeName+'/');
-			json += '}';
-			// beautify JSON
-			json = JSON.stringify(JSON.parse(json), null, '\t');
-			fs.writeFile(outputFilePath, json, function(err) {
-				if (err) {
-					console.error('Error writing to ouput file\n' + err);
-					return -1;
-				}
-			});
-		});
-		return 0;
+
+		try {
+			var parser = new DOMParser();
+			xml = parser.parseFromString(inputXml, 'text/xml');
+		} catch (err) {
+			console.error('Invalid XML input\n' + err);
+			cb(err);
+			return -1;
+		}
+
+		var root = getFirstElementNode(xml.childNodes);
+		if (root == null) {
+			console.error('No element node at root level of XML file');
+			return -1;
+		}
+		
+		json = '{"' + root.nodeName + '":';
+		parse(root, root.nodeName+'/');
+		json += '}';
+
+		cb(null, json);
 	}
 
 
