@@ -1,0 +1,23 @@
+{
+  "name": "ndc-xml2json",
+  "version": "0.0.0",
+  "description": "This library converts NDC XML messages into JSON equivalents.",
+  "main": "xml2json.js",
+  "scripts": {
+    "test": "node ./tests/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/POWERDRIVE-IO/ndc-xml2json-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/POWERDRIVE-IO/ndc-xml2json-js/issues"
+  },
+  "homepage": "https://github.com/POWERDRIVE-IO/ndc-xml2json-js#readme",
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "xmldom": "^0.1.27"
+  }
+}
